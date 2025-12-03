@@ -1,11 +1,21 @@
 const express = require("express");
-const apiRouter = require("./routes/apiRoutes");
+const bodyParser = require("body-parser");
 
 const app = express();
-const port = 3000;
 
-app.use("/", apiRouter);
+// parse requests dof ccontent-type; applicattion/json
+app.use(bodyParser.json());
 
-app.listen(port, () => {
-    console.log(`Lao-Top API running at http://localhost:${port}`);
+// parse reuests of content-type; application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true}));
+
+// simple route
+app.get("/", (req, res) => {
+    res.json({ message: "welcome to bezkoder application."});
+});
+require("./app/routes/product.route")(app);
+
+//set port, listen for requests
+app.listen(3000,() => {
+    console.log("server is running on prot 3000.");
 });
