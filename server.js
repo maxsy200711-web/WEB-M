@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true}));
 app.get("/", (req, res) => {
     res.json({ message: "welcome to bezkoder application."});
 });
-require("./app/routes/product.route")(app);
+require("./app/routes/category.route")(app);
 
 //set port, listen for requests
 app.listen(3000,() => {
