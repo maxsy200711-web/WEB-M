@@ -63,11 +63,10 @@ exports.update = (req, res) => {
       res.send(data);
     }
   });
-};
+}; 
 
 // Controller method to delete a product
 exports.delete = (req, res) => {
-  // Delete the product from the database
   Product.remove(req.params.id, (error, data) => {
     if (error) {
       if (error.kind === "not_found") {

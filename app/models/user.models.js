@@ -1,21 +1,36 @@
-const sql = require("./db.js");
-//constructor
-const user = function (user) {
-    this.pro_name = user.pro_name;
-    this.price = user.price;
-    this.cat_id = user.cat_id;
-};
-//fetch all data
-user.getAll = result => {
-    sql.query("SELECT * FROM users", (err, res) => {
-        if (err) {
-            console.log("Error: ", err);
-            result(null, err);
-            return;
-        }
-        console.log("user: ", res);
-        result(null, res)
-    })
+const sql = require("./db");
+
+const User = function (user) {
+    this.email = user.email;
+    this.password = user.password;
 };
 
-module.exports = user;
+User.create = (newUser, result) => {
+    sql.query("INSERT INTO user SET ?", newUser, (error, response) => {
+        if (error) {
+            console.error(error);
+            result(error, null);
+            return;
+        }
+        result(null, { id: response.insertId, ...newUser });
+    });
+};
+
+User.loginByEmailAndPassword = (email, password, result) => {
+    const qry = "SELECT id, email, password FROM user WHERE email=? AND password=?";
+    sql.query( qry , [email, password], (error, response) => {
+        if( error ) {
+            result(error, null);
+            return;
+        }
+
+        if( response.length ) {
+            result(null, response[0]);
+            return;
+        }
+
+        result({kind:"not_found"}, null);
+    });
+};
+
+module.exports = User;
