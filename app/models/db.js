@@ -7,3 +7,5 @@ const connection = mysql.createConnection({
   password: process.env.PASSWORD,
   database: process.env.DB
 });
+
+module.exports=connection;

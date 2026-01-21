@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config()
 
 exports.create = (req, res) => {
+
+ 
   if ( !req.body.email || !req.body.password ) {
     res.status(400).send({ message: "Email and Password cannot be empty!" });
     return;
